@@ -1,0 +1,76 @@
+﻿
+    <div class="container-fluid" style="width:100%; padding:0px 0px 0px 0px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1>FJF Golfers ({{ filtered.length }})</h1>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom:10px;">
+        <div class="form-inline">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Search FJF Golfers" ng-model="golferFilter" />
+            </div>
+            <div class="col-md-4 text-right">
+
+                <select class="form-control" ng-model="golferFilter.Active" ng-show="false">
+                    <option value="1" selected="selected">Active Golfers</option>
+                    <option value="0">InActive Golfers</option>
+                </select>
+            </div>
+            <div class="col-md-4 text-right">
+
+                <select class="form-control" ng-model="golferFilter.Qualified">
+                    <option value="">Show ALL Golfers</option>
+                    <option value="1">Only Qualified</option>
+                    <option value="0">Only UnQualified</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th ng-click="sortBy='LastName';reverse=!reverse" class="text-left"><span class="btn btn-link">Golfer Name</span></th>
+                        <th ng-show="false" class="text-center" style="width:10%;">Qualified</th>
+                        <th ng-show="false" class="text-center" style="width:10%;">Active</th>
+                        <th ng-click="sortBy='Handicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Handicap</span></th>
+                        <th ng-click="sortBy='AdjustedHandicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Adjusted</span></th>
+                        <th ng-click="sortBy='Wins';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Wins</span></th>
+                        <th ng-click="sortBy='SeniorHandicap';reverse=!reverse" class="text-center" style="width:1%;"><span class="btn btn-link">Sr.Hcp</span></th>
+                        <th ng-click="sortBy='SeniorAdjustedHandicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Adj Sr.Hcp</span></th>
+                        <th ng-click="sortBy='SeniorWins';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Sr.Wins</span></th>
+                        <th class="text-center" style="width:10%;">Edit</th>
+                    </tr>
+                </thead>
+                <tr data-ng-repeat="item in golfers | filter:golferFilter | orderBy:sortBy:reverse as filtered">
+
+                    <td class="text-left">{{item.FirstName}}  {{item.LastName}}</td>
+                    <td ng-show="false" class="text-center">{{item.Qualified}}</td>
+                    <td ng-show="false" class="text-center">{{item.Active}}</td>
+                    <td class="text-center">{{item.Handicap}}</td>
+                    <td class="text-center">{{item.AdjustedHandicap}}</td>
+                    <td class="text-center">{{item.Wins}}</td>
+                    <td class="text-center">{{item.SeniorHandicap}}</td>
+                    <td class="text-center">{{item.SeniorAdjustedHandicap}}</td>
+                    <td class="text-center">{{item.SeniorWins}}</td>
+                    <td class="text-center"><a class="btn btn-primary btn-sm" role="button" href="edit-golfer/{{ item.Id }}">Edit</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <ul class="nav navbar-nav">
+                <li class="text-left"><a ui-sref="thirdPage.firstNested"> First Nested View</a></li>
+                <li><a ui-sref="thirdPage.secondNested">Second Nested View</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <br />
+    <div class="clearfix"></div>
+    <div ui-view></div>
+</div>

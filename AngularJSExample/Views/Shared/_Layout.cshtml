@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FJF Historian</title>
+    <base href='@Url.Content("~")'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body data-ng-app="app" style="font-size: 14px;" >
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("FJF Historian", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="firstPage">Tournaments</a></li>
+                    <li><a ui-sref="thirdPage">Golfers</a></li>
+                    <li><a ui-sref="secondPage">Courses</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="padding: 0px 10px 0px 10px;">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - FJF Historian</p>
+        </footer>
+    </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/bower/angular/angular.min.js"></script>
+    <script src="~/Scripts/bower/angular/angular-route.min.js"></script>
+    <script src="~/Scripts/bower/ui-router/release/angular-ui-router.min.js"></script>
+    <script src="~/App/app.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

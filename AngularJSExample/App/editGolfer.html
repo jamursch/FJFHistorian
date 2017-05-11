@@ -1,0 +1,175 @@
+﻿<div class="container-fluid" style="width:100%; padding:0px 0px 0px 0px;">
+    <form style="padding:10px;">
+        <div class="row" style="margin-bottom:10px; background-color:whitesmoke;">
+            <div class="col-xs-5 col-sm-5 col-md-5">
+                <h1 class="text-primary" style="margin-top:0px; padding-top:0px;">{{ golfer.FirstName }} {{ golfer.LastName }}</h1>
+                <h4>Wins: <span class="text-primary"> {{ golfer.Wins }}</span> &nbsp; Last Win: <span class="text-primary">{{ golfer.LastWin }}</span></h4>
+                <a class="btn btn-primary btn-sm" role="button" ng-click="saveGolferClick(golfer)">Save</a>
+                </div>
+            <div class="col-xs-7 col-sm-7 col-md-7">
+               
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;"><label class="h3">Calculate Handicap</label></th>
+                            <th style="width:50%;" class="text-left"></th>
+                        </tr>
+                        <tr>
+                            <td><label class="h4 text-center">New Handicap</label></td>
+                            <td><label class="h4 text-center">Adjustments</label></td>
+                        </tr>
+                        <tr>
+                            <td class ="text-center">
+                                <label class="text-primary text-center">18 (18.04)</label>
+                                <label class="text-primary text-center">Based on: 12 rounds. High:(34.61) - Low:(16.41) have been omitted</label>
+                            </td>
+                            <td class="text-center">
+                                <label class="text-primary text-center">(Tour) -4 Strokes</label>
+                                <label class="text-primary text-center">Based on: 1 wins. Latest being in 2013</label>
+                            </td>
+                        </tr>
+                    </thead>
+</table>
+</div>
+           
+        </div>
+
+        <div class="row" style="margin-bottom:10px; background-color:whitesmoke;">
+           
+            <div class="col-xs-1 col-sm-1 col-md-1" style="vertical-align:middle;">
+                <span class="glyphicon glyphicon-stats text-center" data-toggle="tooltip" title="tip"></span>
+            </div>
+                <div class="col-xs-3 col-sm-3 col-md-3" style="vertical-align:middle;">
+                    <a class="btn btn-primary btn-sm" role="button" ng-click="calculateHandicapClick(golfer)">Calculate Handicap</a>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8">
+                    <label class="text-primary text-center">18 (18.04)</label>
+                    <label class="text-primary text-center">Based on: 12 rounds. High:(34.61) - Low:(16.41) have been omitted</label>
+                    <label class="text-primary text-center">(Tour) -4 Strokes</label>
+                    <label class="text-primary text-center">Based on: 1 wins. Latest being in 2013</label>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom:10px;">
+                <div class="form-group">
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <label class="h4">First Name</label>
+                        <input class="form-control" placeholder="First Name" name="golferFirstName" ng-model="golfer.FirstName" ng-init="golfer.FirstName">
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <label class="h4">Qualified?</label>
+                        <select class="form-control" ng-model="golfer.Qualified" ng-init="golfer.Qualified">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <label class="h4">Sr Qualified?</label>
+                        <select class="form-control" ng-model="golfer.SeniorQualified" ng-init="golfer.SeniorQualified">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+                <div class="form-group">
+                    <div class="col-xs-4 col-sm-4 col-md-4">
+                        <label class="h4">Last Name</label>
+                        <input class="form-control" placeholder="Last Name" name="golferLastName" ng-model="golfer.LastName" ng-init="golfer.LastName">
+
+                        <label class="h4">Status</label>
+                        <select class="form-control" ng-model="golfer.Active" ng-init="golfer.Active">
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <label class="h4">Hcp</label>
+                        <input class="form-control" placeholder="Handicap" name="golferHcp" ng-model="golfer.Handicap" ng-init="golfer.Handicap">
+                        <label class="h4">Wins</label>
+                        <input class="form-control" placeholder="Wins" name="golferWins" ng-model="golfer.Wins" ng-init="golfer.Wins">
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <label class="h4">Adj Hcp</label>
+                        <input class="form-control" placeholder="Adjusted Handicap" name="golferAdjHcp" ng-model="golfer.AdjustedHandicap" ng-init="golfer.AdjustedHandicap">
+                        <label class="h4">Wins Year</label>
+                        <input class="form-control" placeholder="WinYear" name="golferYear" ng-model="golfer.LastWin" ng-init="golfer.LastWin">
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <label class="h4">Sr. Hcp</label>
+                        <input class="form-control" placeholder="Sr. Handicap" name="golferSrHcp" ng-model="golfer.SeniorHandicap" ng-init="golfer.SeniorHandicap">
+                        <label class="h4">Sr. Wins</label>
+                        <input class="form-control" placeholder="SrWins" name="golferSrWins" ng-model="golfer.SeniorWins" ng-init="golfer.SeniorWins">
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <label class="h4">Adj Sr. Hcp</label>
+                        <input class="form-control" placeholder="Adjusted Sr. Handicap" name="golferAdjSrHcp" ng-model="golfer.SeniorAdjustedHandicap" ng-init="golfer.SeniorAdjustedHandicap">
+                        <label class="h4">Sr. Wins Year</label>
+                        <input class="form-control" placeholder="WinYear" name="golferSrYear" ng-model="golfer.LastSeniorWin" ng-init="golfer.LastSeniorWin">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group" style="margin:0px 0px 0px 0px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <label class="h4">Round History</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <table class="table table-bordered table-striped table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th ng-click="sortBy='Tournament_Name';reverse=!reverse" class="text-left"><span class="btn btn-link">Tournament Name</span></th>
+                                    <th ng-click="sortBy='Rd_Hcp';reverse=!reverse" class="text-center"><span class="btn btn-link">Hcp.</span></th>
+                                    <th ng-click="sortBy='Rd_SrHcp';reverse=!reverse" class="text-center"><span class="btn btn-link">Sr. Hcp.</span></th>
+
+                                    <th ng-click="sortBy='Rd1_Score_Gross';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd1</span></th>
+                                    <th ng-click="sortBy='Rd2_Score_Gross';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd2</span></th>
+                                    <th ng-click="sortBy='Rd3_Score_Gross';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd3</span></th>
+                                    <th ng-click="sortBy='Rd4_Score_Gross';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd4</span></th>
+
+                                    <th ng-click="sortBy='Rd1_Hcp_Index';reverse=!reverse" class="text-center"><span class="btn btn-link">Index 1</span></th>
+                                    <th ng-click="sortBy='Rd2_Hcp_Index';reverse=!reverse" class="text-center"><span class="btn btn-link">Index 2</span></th>
+                                    <th ng-click="sortBy='Rd3_Hcp_Index';reverse=!reverse" class="text-center"><span class="btn btn-link">Index 3</span></th>
+                                    <th ng-click="sortBy='Rd4_Hcp_Index';reverse=!reverse" class="text-center"><span class="btn btn-link">Index 4</span></th>
+                                </tr>
+                            </thead>
+                            <tr data-ng-repeat="round in golferRounds | filter:roundFilter | orderBy:sortBy:reverse as filtered">
+
+                                <td class="text-left">{{round.Tournament_Name}}</td>
+                                <td class="text-center">{{round.Rd_Hcp}}</td>
+                                <td class="text-center">{{round.Rd_SrHcp}}</td>
+
+                                <td class="text-center" data-toggle="tooltip" title="Net Score: {{round.Rd1_Score_Net}} on Date: {{round.Round1_Date}}">{{round.Rd1_Score_Gross}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Net Score: {{round.Rd2_Score_Net}} on Date: {{round.Round2_Date}}">{{round.Rd2_Score_Gross}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Net Score: {{round.Rd3_Score_Net}} on Date: {{round.Round3_Date}}">{{round.Rd3_Score_Gross}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Net Score: {{round.Rd4_Score_Net}} on Date: {{round.Round4_Date}}">{{round.Rd4_Score_Gross}}</td>
+
+                                <td class="text-center" data-toggle="tooltip" title="Gross Score: {{round.Rd1_Score_Gross}} with Hcp: {{round.Rd_Hcp}}">{{round.Rd1_Hcp_Index}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Gross Score: {{round.Rd2_Score_Gross}} with Hcp: {{round.Rd_Hcp}}">{{round.Rd2_Hcp_Index}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Gross Score: {{round.Rd3_Score_Gross}} with Hcp: {{round.Rd_Hcp}}">{{round.Rd3_Hcp_Index}}</td>
+                                <td class="text-center" data-toggle="tooltip" title="Gross Score: {{round.Rd4_Score_Gross}} with Hcp: {{round.Rd_Hcp}}">{{round.Rd4_Hcp_Index}}</td>
+
+
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 text-right">
+                    Total FJF Golf Outing Rounds: {{ filtered.length }}
+                </div>
+            </div>
+</form>
+</div>

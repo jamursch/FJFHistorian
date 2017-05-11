@@ -1,0 +1,144 @@
+﻿<div class="container-fluid" style="width:100%; padding:0px 0px 0px 0px;">
+  <form style="padding:10px;">  
+
+      <div class="row" style="margin-bottom:20px;">
+          
+
+              <div class="col-xs-9 col-sm-9 col-md-9">
+                  <h2 class="text-primary">{{ tournament.Title }}</h2>
+              </div>
+
+                  <div class="col-xs-3 col-sm-3 col-md-3 text-right">
+                      <div style="padding-top:20px;">
+                          <a class="btn btn-primary btn-sm" role="button" ng-click="cancel()">Cancel</a>&nbsp;
+                          <a class="btn btn-primary btn-sm" role="button" ng-click="saveTournamentClick(tournament)">Save</a>
+                      </div>
+                    
+                  </div>
+             
+      </div>
+
+      <div class="row" style="margin-bottom:20px;">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+
+              <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#info">Tournament Information</a></li>
+                  <li><a data-toggle="tab" href="#participants">Participants</a></li>
+              </ul>
+
+              <div class="tab-content">
+
+                  <div id="info" class="tab-pane fade in active" style="margin:10px;">
+                      <div class="row" style="margin-top:30px;">
+                          <div class="form-group" style="margin-bottom:10px;">
+                              <div class="col-xs-6 col-sm-6 col-md-6">
+                                  <label class="h4">Title</label>
+                                  <input class="form-control" placeholder="Tournament Title" name="Title" maxlength="50" ng-model="tournament.Title" ng-init="tournament.Title">
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6">
+                                  <label class="h4">Status</label>
+                                  <select class="form-control">
+                                      <option value="1">Active</option>
+                                      <option value="0">Demo</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="form-group">
+                              <div class="col-xs-6 col-sm-6 col-md-6">
+                                  <label class="h4">Champion</label>
+                                  <input class="form-control" placeholder="Tournament Champion" name="Champion" maxlength="50" ng-model="tournament.Champion" ng-init="tournament.Champion">
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6">
+                                  <label class="h4">Senior Champion</label>
+                                  <input class="form-control" placeholder="Senior Champion" name="SeniorChampion" maxlength="50" ng-model="tournament.SeniorChampion" ng-init="tournament.SeniorChampion" ng-required="false">
+                              </div>
+                              <div class="col-xs-12 col-sm-12 col-md-12">
+                                  <label for="ScrambleChampions" class="h4">Scramble Champions</label>
+                                  <textarea name="ScrambleChampions" placeholder="Scramble Champions" class="form-control" maxlength="200" ng-model="tournament.ScrambleChampions" ng-init="tournament.ScrambleChampions" rows="3"></textarea>
+                              </div>
+                          </div>
+                      </div>
+
+                    
+                      <div class="row">
+                          <div class="form-group">
+                              <div class="col-xs-6 col-sm-6 col-md-3">
+                                  <label for="Round1_Date" class="h4" style="margin-top:10px;">Round 1</label>  {{ tournament.Round1_Date }}
+                                  <input type="text" name="Round1_Date" ng-model="tournament.Round1_Date" ng-init="tournament.Round4_Date" class="form-control" ng-required="false" />
+                                  <select class="form-control" style="margin-top:10px;">
+                                      <option value="Select a Course"></option>
+                                      <option data-ng-selected="course.Id == tournament.Round1_Course" data-ng-repeat="course in courses track by course.Id" value="{{course.Id}}">{{course.DisplayName}}</option>
+                                  </select>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-3">
+                                  <label for="Round2_Date" class="h4" style="margin-top:10px;">Round 2</label>  {{ tournament.Round2_Date }}
+                                  <input type="text" name="Round2_Date" ng-model="tournament.Round2_Date" ng-init="tournament.Round4_Date" class="form-control" ng-required="false" />
+                                  <select class="form-control" style="margin-top:10px;">
+                                      <option value="Select a Course"></option>
+                                      <option data-ng-selected="course.Id == tournament.Round2_Course" data-ng-repeat="course in courses track by course.Id" value="{{course.Id}}">{{course.DisplayName}}</option>
+                                  </select>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-3">
+                                  <label for="Round3_Date" class="h4" style="margin-top:10px;">Round 3</label>  {{ tournament.Round3_Date | date : "shortDate" }}
+                                  <input type="text" name="Round3_Date" ng-model="tournament.Round3_Date" ng-init="tournament.Round4_Date" class="form-control" ng-required="false" />
+                                  <select class="form-control" style="margin-top:10px;">
+                                      <option value="Select a Course"></option>
+                                      <option data-ng-selected="course.Id == tournament.Round3_Course" data-ng-repeat="course in courses track by course.Id" value="{{course.Id}}">{{course.DisplayName}}</option>
+                                  </select>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-3">
+                                  <label for="Round4_Date" class="h4" style="margin-top:10px;">Round 4</label>  {{ tournament.Round4_Date }}
+                                  <input type="text" name="Round4_Date" ng-model="tournament.Round4_Date" ng-init="tournament.Round4_Date" class="form-control" ng-required="false" />
+                                  <select class="form-control" style="margin-top:10px;">
+                                      <option value="Select a Course"></option>
+                                      <option data-ng-selected="course.Id == tournament.Round4_Course" data-ng-repeat="course in courses track by course.Id" value="{{course.Id}}">{{course.DisplayName}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div id="participants" class="tab-pane fade" style="margin:0px 10px 0px 10px;">
+                      <div class=" row" style="margin-top:0px;">
+                      <table class="table table-bordered table-striped table-hover table-responsive">
+                          <thead>
+                              <tr>
+                                  <th class="text-center" style="width:10%;"><span class="btn btn-link">Select</span></th>
+                                  <th ng-click="sortBy='LastName';reverse=!reverse" class="text-left"><span class="btn btn-link">Golfer Name</span></th>
+
+                                  <th ng-click="sortBy='Handicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Handicap</span></th>
+                                  <th ng-click="sortBy='AdjustedHandicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Adjusted</span></th>
+                                  <th ng-click="sortBy='Wins';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Wins</span></th>
+                                  <th ng-click="sortBy='SeniorHandicap';reverse=!reverse" class="text-center" style="width:1%;"><span class="btn btn-link">Sr.Hcp</span></th>
+                                  <th ng-click="sortBy='SeniorAdjustedHandicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Adj Sr.Hcp</span></th>
+                                  <th ng-click="sortBy='SeniorWins';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Sr.Wins</span></th>
+
+                              </tr>
+                          </thead>
+                          <tr data-ng-repeat="golfer in golfers | filter:golferFilter | orderBy:sortBy:reverse as filtered">
+
+                              <td class="text-center"> 
+                                  <input type="checkbox" ng-model="golfer.Id" ng-click="addBlankTournamentRoundClick(golfer)" />
+                              </td>
+                              <td class="text-left">{{golfer.FirstName}}  {{golfer.LastName}}</td>
+
+                              <td class="text-center">{{golfer.Handicap}}</td>
+                              <td class="text-center">{{golfer.AdjustedHandicap}}</td>
+                              <td class="text-center">{{golfer.Wins}}</td>
+                              <td class="text-center">{{golfer.SeniorHandicap}}</td>
+                              <td class="text-center">{{golfer.SeniorAdjustedHandicap}}</td>
+                              <td class="text-center">{{golfer.SeniorWins}}</td>
+
+                          </tr>
+                      </table>
+                  </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+
+          
+
+</form>
+</div>

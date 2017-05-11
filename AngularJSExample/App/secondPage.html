@@ -1,0 +1,38 @@
+﻿<div class="container-fluid" style="width:100%; padding:0px 0px 0px 0px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1>FJF Courses ({{ filtered.length }})</h1>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom:10px;">
+        <div class="form-inline">
+            <div class="col-md-12">
+                <input type="text" class="form-control" placeholder="Search FJF Courses" ng-model="courseFilter" />
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th ng-click="sortBy='DisplayName';reverse=!reverse" class="text-left"><span class="btn btn-link">Course Name</span></th>
+                        <th ng-click="sortBy='Slope';reverse=!reverse" class="text-left" style="width:10%;"><span class="btn btn-link">Slope</span></th>
+                        <th ng-click="sortBy='Rating';reverse=!reverse" class="text-left" style="width:10%;"><span class="btn btn-link">Rating</span></th>
+                        <th ng-click="sortBy='Par';reverse=!reverse" class="text-left" style="width:10%;"><span class="btn btn-link">Par</span></th>
+                    </tr>
+                </thead>
+                <tr data-ng-repeat="item in courses | filter:courseFilter | orderBy:sortBy:reverse as filtered">
+
+                    <td class=" text-left">{{item.DisplayName}}</td>
+                    <td class="text-center">{{item.Slope}}</td>
+                    <td class="text-center">{{item.Rating}}</td>
+                    <td class="text-center">{{item.Par}}</td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

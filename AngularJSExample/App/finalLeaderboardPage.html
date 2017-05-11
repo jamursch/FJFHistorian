@@ -1,0 +1,58 @@
+﻿<div class="container" style="width:100%;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1>FJF Leaderboard ({{ filtered.length }})</h1>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom:10px;">
+        <div class="form-inline">
+            <div class="col-md-12">
+                <input type="text" class="form-control" placeholder="Search FJF Rounds" ng-model="roundFilter" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th ng-click="sortBy='LastName';reverse=!reverse" class="text-left"><span class="btn btn-link">Golfer Name</span></th>
+                        <th ng-click="sortBy='Handicap';reverse=!reverse" class="text-center"><span class="btn btn-link">Handicap</span></th>
+                      
+                        <th ng-click="sortBy='Round1_Net';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd1</span></th>
+                       
+                        <th ng-click="sortBy='Round2_Net';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd2</span></th>
+                      
+                        <th ng-click="sortBy='Round3_Net';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd3</span></th>
+                       
+                        <th ng-click="sortBy='Round4_Net';reverse=!reverse" class="text-center"><span class="btn btn-link">Rd4</span></th>
+                        <th><span class="btn btn-link text-center">Total</span></th>
+                        <th><span class="btn btn-link text-center">Strokes Back</span></th>
+                    </tr>
+                </thead>
+                <tr data-ng-repeat="round in rounds | filter:roundFilter | orderBy:sortBy:reverse as filtered">
+
+                    <td>{{round.LastName}}, {{round.FirstName}}</td>
+                    <td class="text-center">{{round.Handicap}}</td>
+                  
+                    <td class="text-center">{{round.Round1_Net}}</td>
+                   
+                    <td class="text-center">{{round.Round2_Net}}</td>
+                   
+                    <td class="text-center">{{round.Round3_Net}}</td>
+                   
+                    <td class="text-center">{{round.Round4_Net}}</td>
+                    <td class="text-center">{{round.Total_Net}}</td>
+                    <td class="text-center">{{round.Total_Net}}</td>
+
+
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+</div>

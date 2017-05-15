@@ -119,7 +119,7 @@
                           <tr data-ng-repeat="golfer in golfers | filter:golferFilter | orderBy:sortBy:reverse as filtered">
 
                               <td class="text-center"> 
-                                  <input type="checkbox" ng-model="golfer.Id" ng-click="addBlankTournamentRoundClick(golfer)" />
+                                  <input type="checkbox" ng-model="golfer.Id" ng-click="addBlankTournamentRoundClick(golfer, tournament)" />
                               </td>
                               <td class="text-left">{{golfer.FirstName}}  {{golfer.LastName}}</td>
 

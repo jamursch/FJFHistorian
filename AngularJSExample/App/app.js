@@ -95,7 +95,7 @@
         thirdPageService.getGolfers(function (response) {
             $scope.golfers = response.data;
         });
-                             
+                                            
         $scope.saveTournamentClick = function () {
             tournamentService.updateTournamentInformation($scope.tournament, function (response) {
 
@@ -162,9 +162,6 @@
             },
             updateGolferInformation: function (golfer, success, error) {
                 return $http.post('/home/updateGolfer/', golfer).then(success, error);
-            },
-            calculateGolferHandicap: function (golfer, success, error) {
-                return $http.post('/home/calculateHandicap/', golfer).then(success, error);
             }
         }
     }]);

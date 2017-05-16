@@ -200,6 +200,7 @@
     <Content Include="Scripts\bower\ui-router\CONTRIBUTING.md" />
     <Content Include="Scripts\bower\ui-router\LICENSE" />
     <Content Include="Scripts\bower\ui-router\README.md" />
+    <None Include="Properties\PublishProfiles\FJFHistorian.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bower\angular\angular-csp.css" />
     <Content Include="Scripts\bower\angular\angular.js" />

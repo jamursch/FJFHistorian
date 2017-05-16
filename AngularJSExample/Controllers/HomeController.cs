@@ -69,9 +69,9 @@ namespace AngularJSExample.Controllers
         }
 
         [HttpPost]
-        public String createBlankRound(string id, TournamentViewModel tournament)
+        public String createBlankRound(GolferViewModel golfer, TournamentViewModel tournament)
         {
-            return CreateBlankRoundInDB(id, tournament);
+            return CreateBlankRoundInDB(golfer, tournament);
         }
 
         [HttpPost]
@@ -466,7 +466,7 @@ namespace AngularJSExample.Controllers
             }
         }
 
-        public string CreateBlankRoundInDB(string GolferId, TournamentViewModel objTournament)
+        public string CreateBlankRoundInDB(GolferViewModel objGolfer, TournamentViewModel objTournament)
         {
             if (objTournament != null)
             {

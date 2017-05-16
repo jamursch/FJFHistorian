@@ -108,8 +108,8 @@
             });
         }
 
-        $scope.addBlankTournamentRoundClick = function () {
-            tournamentService.createBlankTournamentRound($scope.golfer, $scope.tournament, function (response) {
+        $scope.addBlankTournamentRoundClick = function (golfer, tournament) {
+            tournamentService.createBlankTournamentRound(golfer, tournament, function (response) {
 
             });
         }

@@ -110,7 +110,7 @@
 
         $scope.addBlankTournamentRoundClick = function (golfer, tournament) {
             tournamentService.createBlankTournamentRound(golfer, tournament, function (response) {
-
+                
             });
         }
     }

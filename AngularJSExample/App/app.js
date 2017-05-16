@@ -186,7 +186,7 @@
                 return $http.get('/home/editTournament/').then(success, error);
             },
             createBlankTournamentRound: function (golfer, tournament, success, error) {
-                return $http.post('/home/createBlankRound/', golfer, tournament).then(success, error);
+                return $http.post('/home/createBlankRound/', { Golfer: golfer, Tournament: tournament }).then(success, error);
             },
             deleteBlankTournamentRound: function (golferId, tournament, success, error) {
                 return $http.post('/home/deleteBlankRound/' + golferId + tournament).then(success, error);

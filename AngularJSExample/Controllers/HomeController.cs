@@ -27,6 +27,12 @@ namespace AngularJSExample.Controllers
         }
 
         [HttpGet]
+        public ActionResult loadActiveGolfers()
+        {
+            return Json(DisplayActiveGolfers(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult loadCourses()
         {
             return Json(DisplayCourses(), JsonRequestBehavior.AllowGet);
@@ -268,7 +274,7 @@ namespace AngularJSExample.Controllers
                     {
                         var Leaderboard = new LeaderboardViewModel
                         {
-                            // Id = objLeaderboardRow["Id"].ToString(),
+                            Id = objLeaderboardRow["Golfer_ID"].ToString(),
                             FirstName = objLeaderboardRow["First_Name"].ToString(),
                             LastName = objLeaderboardRow["Last_Name"].ToString(),
                             TournamentName = objLeaderboardRow["Tournament_Name"].ToString(),
@@ -297,7 +303,7 @@ namespace AngularJSExample.Controllers
                 {
                     var Leaderboard = new LeaderboardViewModel
                     {
-                        // Id = objLeaderboardRow["Id"].ToString(),
+                        Id = null,
                         FirstName = "",
                         LastName = "No Rounds Available Prior to 2001 ",
                         Handicap = 0,
@@ -364,11 +370,11 @@ namespace AngularJSExample.Controllers
                     {
                         var Leaderboard = new LeaderboardViewModel
                         {
-                            // Id = objLeaderboardRow["Id"].ToString(),
+                            Id = objLeaderboardRow["Golfer_ID"].ToString(),
                             FirstName = objLeaderboardRow["First_Name"].ToString(),
                             LastName = objLeaderboardRow["Last_Name"].ToString(),
                             TournamentName = strTournamentName,
-                            // GolferId = objLeaderboardRow["Golfer_ID"].ToString(),
+                            GolferId = objLeaderboardRow["Golfer_ID"].ToString(),
                             Handicap = Convert.ToInt32(objLeaderboardRow["Round_Handicap"]),
                             Adusted_Handicap = Convert.ToInt32(objLeaderboardRow["Adjusted_Handicap"]),
                             Round1_Gross = Convert.ToInt32(objLeaderboardRow["Rd1_Score_Total_Gross"]),
@@ -466,10 +472,43 @@ namespace AngularJSExample.Controllers
             }
         }
 
-        public string CreateBlankRoundInDB(GolferViewModel objGolfer, TournamentViewModel objTournament)
+        public string AddGolferToTournament(GolferViewModel objGolfer, TournamentViewModel objTournament)
         {
+            System.Collections.Specialized.StringCollection colSelectedGolfers = new System.Collections.Specialized.StringCollection();
+
             if (objGolfer != null)
             {
+
+                if (colSelectedGolfers.Contains(objGolfer.Id) == false)
+                {
+                    colSelectedGolfers.Add(objGolfer.Id);
+                }
+
+                return "Success! Golfer Round Created";
+            }
+            else
+            {
+                return "Error. Missing Tournament";
+            }
+        }
+
+        public string CreateBlankRoundInDB(GolferViewModel objGolfer, TournamentViewModel objTournament)
+        {
+            System.Collections.Specialized.StringCollection colSelectedGolfers = new System.Collections.Specialized.StringCollection();
+
+            if (objGolfer != null)
+            {
+
+                if (colSelectedGolfers.Contains(objGolfer.Id) == false)
+                {
+                    colSelectedGolfers.Add(objGolfer.Id);
+                }
+
+                var Players = new List<TournamentPlayerViewModel>();
+               // System.Web.HttpContext.Current.Session["TournamentPlayers"] = colSelectedGolfers;
+                //colSelectedGolfers = System.Web.HttpContext.Current.Session["TournamentPlayers"];
+
+                              
 
                 return "Success! Golfer Round Created";
             }
@@ -643,6 +682,52 @@ namespace AngularJSExample.Controllers
 
         }
 
+        public IEnumerable<GolferViewModel> DisplayActiveGolfers()
+        {
+            System.Data.DataSet objDS = null;
+            string strSQL = "";
+
+            try
+            {
+                // Generate SQL Statement
+                strSQL = "SELECT * FROM Golfers ORDER BY Last_Name ASC";
+
+                objDS = DoQuickSelectQuery(strSQL);
+
+                var result = new List<GolferViewModel>();
+
+                foreach (DataRow objGolferRow in objDS.Tables[0].Rows)
+                {
+                    var Golfer = new GolferViewModel
+                    {
+                        Id = objGolferRow["Id"].ToString(),
+                        FirstName = objGolferRow["First_Name"].ToString(),
+                        LastName = objGolferRow["Last_Name"].ToString(),
+
+                        Handicap = Convert.ToInt32(GetDBString(objGolferRow, "Current_Handicap")),
+                        AdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Adjusted_Handicap")),
+                        Wins = Convert.ToInt32(GetDBString(objGolferRow, "Wins")),
+                        SeniorHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Current_Handicap")),
+                        SeniorAdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Adjusted_Handicap")),
+                        SeniorWins = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Wins")),
+                        Qualified = GetDBString(objGolferRow, "Qualified"),
+                        Active = GetDBString(objGolferRow, "Active"),
+                        SeniorQualified = GetDBString(objGolferRow, "Senior_Qualified")
+
+                    };
+
+                    result.Add(Golfer);
+
+                }
+                return result;
+            }
+            finally
+            {
+                this.DestroyDataSet(objDS);
+            }
+
+        }
+
         public string UpdateGolferInDB(GolferViewModel objGolfer)
         {
             if (objGolfer != null)
@@ -713,6 +798,50 @@ namespace AngularJSExample.Controllers
         #region Helper Signatures
         
         #region Create
+
+        public class SessionHelper
+        {
+            public enum StringValues
+            {
+                Unknown1,
+                Unknown2
+            }
+
+           
+            public static string GetSessionStateString(StringValues Key)
+            {
+
+                object objValue = null;
+
+                objValue = System.Web.HttpContext.Current.Session[Key.ToString()];
+                if (objValue != null && objValue is string)
+                {
+                    return Convert.ToString(objValue);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+
+            }
+
+            public static void SetSessionStateString(StringValues Key, string Value)
+            {
+                if (string.IsNullOrEmpty(Value))
+                {
+                    System.Web.HttpContext.Current.Session.Remove(Key.ToString());
+                }
+                else
+                {
+                    System.Web.HttpContext.Current.Session[Key.ToString()] = Value;
+                }
+
+            }
+        }
+
+       
+
+       
 
         private System.Data.IDbConnection OpenDBConnection()
         {
@@ -1119,6 +1248,26 @@ namespace AngularJSExample.Controllers
         public string Email { get; set; }
         public int Handicap { get; set; }
 
+        public int AdjustedHandicap { get; set; }
+        public int Wins { get; set; }
+        public string Qualified { get; set; }
+        public string SeniorQualified { get; set; }
+        public int SeniorHandicap { get; set; }
+        public int SeniorAdjustedHandicap { get; set; }
+        public int SeniorWins { get; set; }
+        public string Active { get; set; }
+        public int LastWin { get; set; }
+        public int LastSeniorWin { get; set; }
+
+    }
+
+    public class TournamentPlayerViewModel
+    {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public int Handicap { get; set; }
         public int AdjustedHandicap { get; set; }
         public int Wins { get; set; }
         public string Qualified { get; set; }

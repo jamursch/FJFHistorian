@@ -116,10 +116,10 @@
 
                               </tr>
                           </thead>
-                          <tr data-ng-repeat="golfer in golfers | filter:golferFilter | orderBy:sortBy:reverse as filtered">
+                          <tr data-ng-repeat="golfer in activeGolfers | filter:golferFilter | orderBy:sortBy:reverse as filtered">
 
-                              <td class="text-center"> 
-                                  <input type="checkbox" ng-model="golfer.Id" ng-click="addBlankTournamentRoundClick(golfer, tournament)" />
+                              <td class="text-center">
+                                  <input type="checkbox" ng-click="addBlankTournamentRoundClick(golfer, tournament)" />
                               </td>
                               <td class="text-left">{{golfer.FirstName}}  {{golfer.LastName}}</td>
 

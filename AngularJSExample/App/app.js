@@ -47,6 +47,8 @@
         thirdPageService.getGolfers(function (response) {
             $scope.golfers = response.data;
         });
+
+        
     }
 
     function leaderboardController($scope, $state, leaderboardService) {
@@ -95,7 +97,11 @@
         thirdPageService.getGolfers(function (response) {
             $scope.golfers = response.data;
         });
-                                            
+          
+        thirdPageService.getActiveGolfers(function (response) {
+            $scope.activeGolfers = response.data;
+        });
+
         $scope.saveTournamentClick = function () {
             tournamentService.updateTournamentInformation($scope.tournament, function (response) {
 
@@ -142,6 +148,9 @@
         return {
             getGolfers: function (success, error) {
                 return $http.get('/home/loadGolfers/1').then(success, error);
+            },
+            getActiveGolfers: function (success, error) {
+                return $http.get('/home/loadActiveGolfers/').then(success, error);
             }
         };
     }]);

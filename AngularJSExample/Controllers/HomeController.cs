@@ -690,7 +690,7 @@ namespace AngularJSExample.Controllers
             try
             {
                 // Generate SQL Statement
-                strSQL = "SELECT * FROM Golfers ORDER BY Last_Name ASC";
+                strSQL = "SELECT * FROM Golfers WHERE Active = '1' ORDER BY Last_Name ASC";
 
                 objDS = DoQuickSelectQuery(strSQL);
 
@@ -730,13 +730,42 @@ namespace AngularJSExample.Controllers
 
         public string UpdateGolferInDB(GolferViewModel objGolfer)
         {
+            string strSQL = string.Empty;
+            System.Guid strId;
+
             if (objGolfer != null)
             {
-                return "Success! Golfer Updated";
-            }
+
+               
+                    // EDIT vs. CREATE
+                    if (string.IsNullOrWhiteSpace(objGolfer.Id))
+                    {
+                        // Generate a unique GUID ID for golfer
+                        strId = System.Guid.NewGuid();
+                                               
+            // Generate your Insert SQL Statement
+                        strSQL = "INSERT INTO Golfers (Id, First_Name, Last_Name, Current_Handicap, Adjusted_Handicap, Last_Win_Year, Last_Senior_Win_Year, Qualified, Senior_Qualified, Senior_Current_Handicap, Senior_Adjusted_Handicap, Wins, Senior_Wins, Active) VALUES (" + SQLValuePrep(strId.ToString()) + ", " + SQLValuePrep(objGolfer.FirstName) + ", " + SQLValuePrep(objGolfer.LastName) + ", " + SQLValuePrep(objGolfer.Handicap.ToString()) + ", " + SQLValuePrep(objGolfer.AdjustedHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.Qualified) + ", " + SQLValuePrep(objGolfer.LastWin.ToString()) + ", " + SQLValuePrep(objGolfer.LastSeniorWin.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorQualified.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorAdjustedHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.Wins.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorWins.ToString()) + ", " + SQLValuePrep(objGolfer.Active) + ")";
+                                                                }
+                    else
+                    {
+                        strSQL = "UPDATE Golfers SET First_Name = " + SQLValuePrep(objGolfer.FirstName) + ", Last_Name = " + SQLValuePrep(objGolfer.LastName) + ", Current_Handicap = " + SQLValuePrep(objGolfer.Handicap.ToString()) + ", Adjusted_Handicap = " + SQLValuePrep(objGolfer.AdjustedHandicap.ToString()) + ", Last_Win_Year = " + SQLValuePrep(objGolfer.LastWin.ToString()) + ", Last_Senior_Win_Year = " + SQLValuePrep(objGolfer.LastSeniorWin.ToString()) + ", Qualified = " + SQLValuePrep(objGolfer.Qualified.ToString()) + ", Senior_Qualified = " + SQLValuePrep(objGolfer.SeniorQualified.ToString()) + ", Senior_Adjusted_Handicap = " + SQLValuePrep(objGolfer.SeniorAdjustedHandicap.ToString()) + ", Senior_Current_Handicap = " + SQLValuePrep(objGolfer.SeniorHandicap.ToString()) + ", Wins = " + SQLValuePrep(objGolfer.Wins.ToString()) + ", Senior_Wins = " + SQLValuePrep(objGolfer.SeniorWins.ToString()) + ", Active = " + SQLValuePrep(objGolfer.Active.ToString()) + " " + "WHERE Id=" + SQLValuePrep(objGolfer.Id.ToString());
+                                              
+                    }
+
+                    // Run the SQL and Return if it's successful or not
+                    if (DoQuickUpdateQuery(strSQL) == 1)
+                    {
+                        return "Success!";
+                    }
+                    else
+                    {
+                        return "Error!";
+                    }
+                
+                            }
             else
             {
-                return "Error. Missing Golfer";
+                return "Error. Missing Tournament";
             }
         }
 

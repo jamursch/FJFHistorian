@@ -587,46 +587,69 @@ namespace AngularJSExample.Controllers
 
             try
             {
-                strSQL = "SELECT * FROM Golfers WHERE ID = '" + id + "'";
-                objDS = DoQuickSelectQuery(strSQL);
-
-                var result = new LeaderboardViewModel();
-
-                if (objDS.Tables[0].Rows.Count > 0)
+                 // EDIT OR CREATE
+                if (string.IsNullOrWhiteSpace(id))
                 {
-                    foreach (DataRow objGolferRow in objDS.Tables[0].Rows)
+                    var Golfer = new GolferViewModel
                     {
-                        var Golfer = new GolferViewModel
-                        {
-                            Id = objGolferRow["ID"].ToString(),
-                            FirstName = objGolferRow["First_Name"].ToString(),
-                            LastName = objGolferRow["Last_Name"].ToString(),
-                            Email = objGolferRow["Email"].ToString(),
-
-                            Handicap = Convert.ToInt32(GetDBString(objGolferRow, "Current_Handicap")),
-                            AdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Adjusted_Handicap")),
-                            Wins = Convert.ToInt32(GetDBString(objGolferRow, "Wins")),
-                            SeniorHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Current_Handicap")),
-                            SeniorAdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Adjusted_Handicap")),
-                            SeniorWins = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Wins")),
-                            Qualified = GetDBString(objGolferRow, "Qualified"),
-                            Active = GetDBString(objGolferRow, "Active"),
-                            SeniorQualified = GetDBString(objGolferRow, "Senior_Qualified"),
-                            //Qualified = Convert.ToInt32(GetDBString(objGolferRow, "Qualified")),
-                            //Active = Convert.ToInt32(GetDBString(objGolferRow, "Active")),
-                            //SeniorQualified = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Qualified")),
-                            LastWin = Convert.ToInt32(GetDBString(objGolferRow, "Last_Win_Year")),
-                            LastSeniorWin = Convert.ToInt32(GetDBString(objGolferRow, "Last_Senior_Win_Year"))
-                        };
-
-                        return Golfer;
-                    }
+                        Id = string.Empty,
+                        FirstName = "New",
+                        LastName = "Golfer",
+                        Email = string.Empty,
+                        Handicap = 0,
+                        AdjustedHandicap = 0,
+                        Wins = 0,
+                        SeniorHandicap = 0,
+                        SeniorAdjustedHandicap = 0,
+                        SeniorWins = 0,
+                        Qualified = "0",
+                        Active = "1",
+                        SeniorQualified = "0",
+                        LastWin = 0,
+                        LastSeniorWin = 0
+                    };
+                    return Golfer;
                 }
                 else
                 {
-                    return null;
-                }
+                    strSQL = "SELECT * FROM Golfers WHERE ID = '" + id + "'";
+                    objDS = DoQuickSelectQuery(strSQL);
 
+                    //var result = new LeaderboardViewModel();
+
+                    if (objDS.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow objGolferRow in objDS.Tables[0].Rows)
+                        {
+                            var Golfer = new GolferViewModel
+                            {
+                                Id = objGolferRow["ID"].ToString(),
+                                FirstName = objGolferRow["First_Name"].ToString(),
+                                LastName = objGolferRow["Last_Name"].ToString(),
+                                Email = objGolferRow["Email"].ToString(),
+
+                                Handicap = Convert.ToInt32(GetDBString(objGolferRow, "Current_Handicap")),
+                                AdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Adjusted_Handicap")),
+                                Wins = Convert.ToInt32(GetDBString(objGolferRow, "Wins")),
+                                SeniorHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Current_Handicap")),
+                                SeniorAdjustedHandicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Adjusted_Handicap")),
+                                SeniorWins = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Wins")),
+                                Qualified = GetDBString(objGolferRow, "Qualified"),
+                                Active = GetDBString(objGolferRow, "Active"),
+                                SeniorQualified = GetDBString(objGolferRow, "Senior_Qualified"),
+                                LastWin = Convert.ToInt32(GetDBString(objGolferRow, "Last_Win_Year")),
+                                LastSeniorWin = Convert.ToInt32(GetDBString(objGolferRow, "Last_Senior_Win_Year"))
+                            };
+
+                            return Golfer;
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                             
                 return null;
             }
             finally

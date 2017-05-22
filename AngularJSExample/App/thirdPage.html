@@ -11,20 +11,25 @@
             <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="Search FJF Golfers" ng-model="golferFilter" />
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-md-3 text-right">
 
-                <select class="form-control" ng-model="golferFilter.Active" ng-show="false">
-                    <option value="1" selected="selected">Active Golfers</option>
+                <select class="form-control" ng-model="golferFilter.Active" ng-show="true">
+                    <option value="">Active/Inactive</option>
+                    <option value="1">Active Golfers</option>
                     <option value="0">InActive Golfers</option>
                 </select>
             </div>
-            <div class="col-md-4 text-right">
+            <div class="col-md-3 text-right">
 
                 <select class="form-control" ng-model="golferFilter.Qualified">
-                    <option value="">Show ALL Golfers</option>
+                    <option value="">Qualified/UnQualified</option>
                     <option value="1">Only Qualified</option>
                     <option value="0">Only UnQualified</option>
                 </select>
+            </div>
+            <div class="col-md-2 text-right">
+
+                <a class="btn btn-primary btn-sm" role="button" href="edit-golfer/">ADD GOLFER</a>
             </div>
         </div>
     </div>
@@ -42,6 +47,7 @@
                         <th ng-click="sortBy='SeniorHandicap';reverse=!reverse" class="text-center" style="width:1%;"><span class="btn btn-link">Sr.Hcp</span></th>
                         <th ng-click="sortBy='SeniorAdjustedHandicap';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Adj Sr.Hcp</span></th>
                         <th ng-click="sortBy='SeniorWins';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Sr.Wins</span></th>
+                        <th ng-click="sortBy='Active';reverse=!reverse" class="text-center" style="width:10%;"><span class="btn btn-link">Active</span></th>
                         <th class="text-center" style="width:10%;">Edit</th>
                     </tr>
                 </thead>
@@ -56,6 +62,7 @@
                     <td class="text-center">{{item.SeniorHandicap}}</td>
                     <td class="text-center">{{item.SeniorAdjustedHandicap}}</td>
                     <td class="text-center">{{item.SeniorWins}}</td>
+                    <td class="text-center">{{item.Active}}</td>
                     <td class="text-center"><a class="btn btn-primary btn-sm" role="button" href="edit-golfer/{{ item.Id }}">Edit</a></td>
                 </tr>
             </table>

@@ -743,7 +743,7 @@ namespace AngularJSExample.Controllers
                         // Generate a unique GUID ID for golfer
                         strId = System.Guid.NewGuid();
                                                
-            // Generate your Insert SQL Statement
+                        // Generate your Insert SQL Statement
                         strSQL = "INSERT INTO Golfers (Id, First_Name, Last_Name, Current_Handicap, Adjusted_Handicap, Last_Win_Year, Last_Senior_Win_Year, Qualified, Senior_Qualified, Senior_Current_Handicap, Senior_Adjusted_Handicap, Wins, Senior_Wins, Active) VALUES (" + SQLValuePrep(strId.ToString()) + ", " + SQLValuePrep(objGolfer.FirstName) + ", " + SQLValuePrep(objGolfer.LastName) + ", " + SQLValuePrep(objGolfer.Handicap.ToString()) + ", " + SQLValuePrep(objGolfer.AdjustedHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.Qualified) + ", " + SQLValuePrep(objGolfer.LastWin.ToString()) + ", " + SQLValuePrep(objGolfer.LastSeniorWin.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorQualified.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorAdjustedHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorHandicap.ToString()) + ", " + SQLValuePrep(objGolfer.Wins.ToString()) + ", " + SQLValuePrep(objGolfer.SeniorWins.ToString()) + ", " + SQLValuePrep(objGolfer.Active) + ")";
                                                                 }
                     else

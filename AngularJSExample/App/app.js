@@ -131,7 +131,7 @@
     app.factory('firstPageService', ['$http', function ($http) {
         return {
             getTournament: function (success, error) {
-                return $http.get('/home/loadTournaments/1').then(success, error);
+                return $http.get('home/loadTournaments/1').then(success, error);
             }
         };
     }]);
@@ -139,7 +139,7 @@
     app.factory('secondPageService', ['$http', function ($http) {
         return {
             getCourses: function (success, error) {
-                return $http.get('/home/loadCourses/1').then(success, error);
+                return $http.get('home/loadCourses/1').then(success, error);
             }
         };
     }]);
@@ -147,10 +147,10 @@
     app.factory('thirdPageService', ['$http', function ($http) {
         return {
             getGolfers: function (success, error) {
-                return $http.get('/home/loadGolfers/1').then(success, error);
+                return $http.get('home/loadGolfers/1').then(success, error);
             },
             getActiveGolfers: function (success, error) {
-                return $http.get('/home/loadActiveGolfers/').then(success, error);
+                return $http.get('home/loadActiveGolfers/').then(success, error);
             }
         };
     }]);
@@ -158,7 +158,7 @@
     app.factory('leaderboardService', ['$http', '$state', function ($http, $state) {
         return {
             getLeaderboard: function (tournamentId, success, error) {
-                return $http.get('/home/loadRounds/' + tournamentId).then(success, error);
+                return $http.get('home/loadRounds/' + tournamentId).then(success, error);
             }
         };
     }]);
@@ -167,10 +167,10 @@
     app.factory('golferService', ['$http', '$state', function ($http, $state) {
         return {
             getGolferInfo: function (golferId, success, error) {
-                return $http.get('/home/displayGolferInfo/' + golferId).then(success, error);
+                return $http.get('home/displayGolferInfo/' + golferId).then(success, error);
             },
             updateGolferInformation: function (golfer, success, error) {
-                return $http.post('/home/updateGolfer/', golfer).then(success, error);
+                return $http.post('home/updateGolfer/', golfer).then(success, error);
             }
         }
     }]);
@@ -178,7 +178,7 @@
        app.factory('golferRoundsService', ['$http', '$state', function ($http, $state) {
         return {
             getRounds: function (golferId, success, error) {
-                return $http.get('/home/loadGolferRounds/' + golferId).then(success, error);
+                return $http.get('home/loadGolferRounds/' + golferId).then(success, error);
             }
         };
     }]);
@@ -186,19 +186,19 @@
     app.factory('tournamentService', ['$http', '$state', function ($http, $state) {
         return {
             getTournamentInfo: function (tournamentId, success, error) {
-                return $http.get('/home/editTournament/' + tournamentId).then(success, error);
+                return $http.get('home/editTournament/' + tournamentId).then(success, error);
             },
             updateTournamentInformation: function (tournament, success, error) {
-                return $http.post('/home/updateTournament/', tournament).then(success, error);
+                return $http.post('home/updateTournament/', tournament).then(success, error);
             },
             addTournamentInfo: function (success, error) {
-                return $http.get('/home/editTournament/').then(success, error);
+                return $http.get('home/editTournament/').then(success, error);
             },
             createBlankTournamentRound: function (golfer, tournament, success, error) {
-                return $http.post('/home/createBlankRound/', { Golfer: golfer, Tournament: tournament }).then(success, error);
+                return $http.post('home/createBlankRound/', { Golfer: golfer, Tournament: tournament }).then(success, error);
             },
             deleteBlankTournamentRound: function (golferId, tournament, success, error) {
-                return $http.post('/home/deleteBlankRound/' + golferId + tournament).then(success, error);
+                return $http.post('home/deleteBlankRound/' + golferId + tournament).then(success, error);
             }
         };
     }]);
@@ -206,7 +206,7 @@
     app.factory('finalLeaderboardService', ['$http', '$state', function ($http, $state) {
             return {
             getFinalLeaderboard: function (tournamentId, success, error) {
-                return $http.get('/home/loadFinalRounds/' + tournamentId).then(success, error);
+                return $http.get('home/loadFinalRounds/' + tournamentId).then(success, error);
             }
         };
     }]);

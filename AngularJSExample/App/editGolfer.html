@@ -2,26 +2,57 @@
     <form style="padding:10px;">
         <div class="row" style="margin-bottom:10px; margin-right:5px; height:100px; background-color:whitesmoke;">
             <div class="col-xs-5 col-sm-5 col-md-5">
-                <h1 class="text-primary" style="margin-top:0px; padding-top:10px;">{{ golfer.FirstName }} {{ golfer.LastName }}</h1>
-               
-                <select class="form-control" ng-model="golfer.Active" ng-init="golfer.Active" style="width:120px;">
-                    <option value="1" class="text-success">Active</option>
-                    <option value="0" class="text-danger">InActive</option>
-                </select>
-            </div>
-            <div class="col-xs-5 col-sm-5 col-md-5 text-left">
-                <h4 ng-show="golfer.Qualified == 1">
-                    Wins: <span class="text-primary"> {{ golfer.Wins }}</span> &nbsp; Last Win: <span class="text-primary">{{ golfer.LastWin }}</span>
-                </h4>
-                <h4 ng-show="golfer.SeniorQualified == 1">Sr. Wins: <span class="text-primary"> {{ golfer.SeniorWins }}</span> &nbsp; Last Sr. Win: <span class="text-primary">{{ golfer.LastSeniorWin }}</span></h4>
-                
-            </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 text-right">
-                    <div style="margin-top:0px; padding:15px 10px 0px 0px;">
-                        <a class="btn btn-success btn-md" style="vertical-align:middle;" role="button" ng-click="saveGolferClick(golfer)">Save {{ golfer.FirstName }}</a>
-                    </div>
 
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <h1 class="text-primary" style="margin-top:0px; padding-top:10px;">{{ golfer.FirstName }} {{ golfer.LastName }}</h1>
                 </div>
+                <div class="col-xs-5 col-sm-5 col-md-5">
+                    <select class="form-control" ng-model="golfer.Active" ng-init="golfer.Active">
+                        <option value="1" class="text-success">Active</option>
+                        <option value="0" class="text-danger">InActive</option>
+                    </select>
+                </div>
+                <div class="col-xs-7 col-sm-7 col-md-7">
+                    <a class="btn btn-success btn-md" style="vertical-align:middle;" role="button" ng-click="saveGolferClick(golfer)">Save {{ golfer.FirstName }}</a>
+                </div> 
+                </div>
+
+            <div class="col-xs-7 col-sm-7 col-md-7 text-right">
+                <table class="table table-condensed table-responsive" ng-show="filtered.length != 0">
+                    <thead ng-show="golfer.Qualified == 1">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th class="text-center">Hcp</th>
+                            <th class="text-center">Adj Hcp</th>
+                            <th class="text-center">Wins</th>
+                            <th class="text-center">Last Win</th>
+                        </tr>
+                    </thead>
+                        <tr ng-show="golfer.Qualified == 1">
+                            <td class="h4 text-right">FJF</td>
+                            <td class="text-primary text-center">{{ golfer.Handicap }}</td>
+                           
+                            <td class="text-primary text-center">{{ golfer.AdjustedHandicap }}</td>
+                            
+                            <td class="text-primary text-center">{{ golfer.Wins }}</td>
+                            
+                            <td class="text-primary text-center">{{ golfer.LastWin }}</td>
+                        </tr>
+
+
+                        <tr ng-show="golfer.SeniorQualified == 1">
+                            <td class="h4 text-right">Sr FJF</td>
+                           
+                            <td class="text-primary text-center">{{ golfer.SeniorHandicap }}</td>
+                           
+                            <td class="text-primary text-center">{{ golfer.SeniorAdjustedHandicap }}</td>
+                            
+                            <td class="text-primary text-center">{{ golfer.SeniorWins }}</td>
+                           
+                            <td class="text-primary text-center">{{ golfer.LastSeniorWin }}</td>
+                        </tr>
+</table>
+</div> 
             </div>
       
 
@@ -37,7 +68,7 @@
                 </ul>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="tab-content" style="padding:15px 0px 0px 0px;">
+                <div class="tab-content" style="padding-top:15px;">
                     <div id="info" class="tab-pane fade in active">
                         <div class="row" style="margin-bottom:10px; margin-right:0px;">
                             <div class="form-group">
@@ -99,20 +130,20 @@
                     </div>
                     <div id="rounds" class="tab-pane fade">
                         <div class="row" ng-show="filtered.length != 0">
-                            <div class="form-group" style="margin:0px 0px 0px 0px;">
+                           
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <label class="h4">Round History (since 2001)</label>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                                    <label class="h4">Total FJF Golf Outing Rounds: {{ filtered.length }}</label>
+                                    <label class="h4">FJF Round Years Played: {{ filtered.length }}</label>
 </div>
-                            </div>
+                            
                         </div>
 
-                        <div class="row" style="margin-right:5px;" ng-show="filtered.length != 0">
-                            <div class="form-group">
+                        <div class="row" ng-show="filtered.length != 0">
+                           
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <table class="table table-bordered table-striped table-hover table-responsive" style="width:98%;">
+                                    <table class="table table-bordered table-striped table-condensed table-hover table-responsive">
                                         <thead>
                                             <tr>
                                                 <th ng-click="sortBy='Tournament_Name';reverse=!reverse" class="text-left"><span class="btn btn-link">Tournament Name</span></th>
@@ -151,7 +182,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div id="handicap" class="tab-pane fade" ng-show="filtered.length != 0">

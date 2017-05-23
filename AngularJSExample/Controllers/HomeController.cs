@@ -133,7 +133,7 @@ namespace AngularJSExample.Controllers
                     var Tournament = new TournamentViewModel
                     {
                         Id = string.Empty,
-                        Title = string.Empty,
+                        Title = DateTime.Now.Year.ToString() + " FJF Memorial Golf Outing",
                         Champion = string.Empty,
                         SeniorChampion = string.Empty,
                         ScrambleChampions = string.Empty,
@@ -444,7 +444,7 @@ namespace AngularJSExample.Controllers
                     {
                         strId = System.Guid.NewGuid();
 
-                        strSQL = "INSERT INTO Tournaments (Id, Display_Name, FJF_Champion, Senior_Champion, Scramble_Champions, Tournament_Round_1_Date, Tournament_Round_2_Date, Tournament_Round_3_Date, Tournament_Round_4_Date, Tournament_Round_1_Course, Tournament_Round_2_Course, Tournament_Round_3_Course,Tournament_Round_4_Course, Status) VALUES (" + SQLValuePrep(strId.ToString()) + ", " + SQLValuePrep(objTournament.Title) + ", " + SQLValuePrep(objTournament.Champion) + ", " + SQLValuePrep(objTournament.SeniorChampion) + ", " + SQLValuePrep(objTournament.ScrambleChampions) + ", " + objTournament.Round1_Date + ", " + SQLValuePrep(objTournament.Round2_Date) + ", " + SQLValuePrep(objTournament.Round3_Date) + ", " + SQLValuePrep(objTournament.Round4_Date) + ", " + SQLValuePrep(objTournament.Round1_Course) + ", " + SQLValuePrep(objTournament.Round2_Course) + ", " + SQLValuePrep(objTournament.Round3_Course) + ", " + SQLValuePrep(objTournament.Round4_Course) + ", " + SQLValuePrep("1") + ")";
+                        strSQL = "INSERT INTO Tournaments (Id, Display_Name, FJF_Champion, Senior_Champion, Scramble_Champions, Tournament_Round_1_Date, Tournament_Round_2_Date, Tournament_Round_3_Date, Tournament_Round_4_Date, Tournament_Round_1_Course, Tournament_Round_2_Course, Tournament_Round_3_Course,Tournament_Round_4_Course, Status) VALUES (" + SQLValuePrep(strId.ToString()) + ", " + SQLValuePrep(objTournament.Title) + ", " + SQLValuePrep(objTournament.Champion) + ", " + SQLValuePrep(objTournament.SeniorChampion) + ", " + SQLValuePrep(objTournament.ScrambleChampions) + ", " + SQLValuePrep(objTournament.Round1_Date) + ", " + SQLValuePrep(objTournament.Round2_Date) + ", " + SQLValuePrep(objTournament.Round3_Date) + ", " + SQLValuePrep(objTournament.Round4_Date) + ", " + SQLValuePrep(objTournament.Round1_Course) + ", " + SQLValuePrep(objTournament.Round2_Course) + ", " + SQLValuePrep(objTournament.Round3_Course) + ", " + SQLValuePrep(objTournament.Round4_Course) + ", " + SQLValuePrep("1") + ")";
                     }
                     else
                     {

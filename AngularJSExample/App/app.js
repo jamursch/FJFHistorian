@@ -21,7 +21,7 @@
     app.controller("firstPageController", ["$scope", "firstPageService", firstPageController]);
     app.controller("secondPageController", ["$scope", "secondPageService", secondPageController]);
     app.controller("thirdPageController", ["$scope", "thirdPageService", thirdPageController]);
-    app.controller("leaderboardController", ["$scope", "$state", "leaderboardService", leaderboardController]);
+    app.controller("leaderboardController", ["$scope", "$state", "leaderboardService", "thirdPageService", leaderboardController]);
     app.controller("firstNestedPageController", ["$scope", firstNestedPageController]);
     app.controller("secondNestedPageController", ["$scope", secondNestedPageController]);
     app.controller("golferController", ["$scope", "$state", "golferService", "golferRoundsService", golferController]);
@@ -51,11 +51,16 @@
         
     }
 
-    function leaderboardController($scope, $state, leaderboardService) {
+    function leaderboardController($scope, $state, leaderboardService, thirdPageService) {
         var tournamentId = $state.params.tournamentId;
         leaderboardService.getLeaderboard(tournamentId, function (response) {
             $scope.rounds = response.data;
         });
+
+        thirdPageService.getActiveGolfers(function (response) {
+            $scope.activeGolfers = response.data;
+        });
+
     }
 
     function golferController($scope, $state, golferService, golferRoundsService) {
@@ -159,6 +164,9 @@
         return {
             getLeaderboard: function (tournamentId, success, error) {
                 return $http.get('home/loadRounds/' + tournamentId).then(success, error);
+            },
+            getActiveGolfers: function (success, error) {
+                return $http.get('home/loadActiveGolfers/').then(success, error);
             }
         };
     }]);

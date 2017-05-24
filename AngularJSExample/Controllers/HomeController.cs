@@ -81,6 +81,12 @@ namespace AngularJSExample.Controllers
         }
 
         [HttpPost]
+        public String addGolferTournamentRounds(GolferTournamentViewModel golferTournament)
+        {
+            return CreateGolferTournamentRoundsInDB(golferTournament.Golfers, golferTournament.Tournament);
+        }
+
+        [HttpPost]
         public String updateGolfer(GolferViewModel golfer)
         {
             return UpdateGolferInDB(golfer);
@@ -518,6 +524,22 @@ namespace AngularJSExample.Controllers
             }
         }
 
+        public string CreateGolferTournamentRoundsInDB(IEnumerable<GolferViewModel> objGolfers, TournamentViewModel objTournament)
+        {
+           
+
+            if (objGolfers != null)
+            {
+                //Loop through the objGolfers Collection and update their rounds in the DB
+                //SQL Goes Here
+
+                return "Success! Golfer Round Created";
+            }
+            else
+            {
+                return "Error. Missing Tournament";
+            }
+        }
         #endregion
 
         #region Golfer Signatures
@@ -1222,6 +1244,9 @@ namespace AngularJSExample.Controllers
     {
         public GolferViewModel Golfer { get; set; }
         public TournamentViewModel Tournament { get; set; }
+        public IEnumerable<GolferViewModel> Golfers { get; set; }
+
+        
     }
    
     public class TournamentViewModel

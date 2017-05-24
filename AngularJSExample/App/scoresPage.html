@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid" style="width:100%; padding:0px 0px 0px 0px;">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
-            <h1>FJF Golfers ({{ filtered.length }})</h1>
+            <h1>FJF Golfers ({{ filtered.length }}) {{ tournament.Title }}</h1>
         </div>
     </div>
 
@@ -11,7 +11,7 @@
                 <input type="text" class="form-control" placeholder="Search FJF Golfers" ng-model="tournamentFilter" />
             </div>
             <div class="col-xs-8 col-sm-8 col-md-8 text-right">
-                <a class="btn btn-primary btn-sm" role="button" ng-click="saveTournamentRoundsClick(tournament)">Save</a>
+                <a class="btn btn-primary btn-sm" role="button" ng-click="saveTournamentRoundsClick(activeGolfers, tournament)">Save</a>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@
         $stateProvider.state("final-leaderboard", { url: '/final-leaderboard/:tournamentId', templateUrl: 'App/finalLeaderboardPage.html', controller: 'leaderboardController' });
         $stateProvider.state("edit-golfer", { url: '/edit-golfer/:golferId', templateUrl: 'App/editGolfer.html', controller: 'golferController' });
         $stateProvider.state("edit-tournament", { url: '/edit-tournament/:tournamentId', templateUrl: 'App/editTournament.html', controller: 'tournamentController' });
-        $stateProvider.state("tournament-scores", { url: '/tournament-scores/:tournamentId', templateUrl: 'App/scoresPage.html', controller: 'leaderboardController' });
+        $stateProvider.state("tournament-scores", { url: '/tournament-scores/:tournamentId', templateUrl: 'App/scoresPage.html', controller: 'tournamentController' });
         $locationProvider.html5Mode(true);
     }]);
 
@@ -124,6 +124,12 @@
                 
             });
         }
+
+        $scope.saveTournamentRoundsClick = function (activeGolfers, tournament) {
+            tournamentService.addGolferTournamentRounds(activeGolfers, tournament, function (response) {
+
+            });
+        }
     }
 
     function firstNestedPageController($scope) {
@@ -205,8 +211,8 @@
             createBlankTournamentRound: function (golfer, tournament, success, error) {
                 return $http.post('home/createBlankRound/', { Golfer: golfer, Tournament: tournament }).then(success, error);
             },
-            deleteBlankTournamentRound: function (golferId, tournament, success, error) {
-                return $http.post('home/deleteBlankRound/' + golferId + tournament).then(success, error);
+            addGolferTournamentRounds: function (activeGolfers, tournament, success, error) {
+                return $http.post('home/addGolferTournamentRounds/', { Golfers: activeGolfers, Tournament: tournament }).then(success, error);
             }
         };
     }]);

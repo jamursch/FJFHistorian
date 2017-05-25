@@ -25,7 +25,7 @@
     app.controller("firstNestedPageController", ["$scope", firstNestedPageController]);
     app.controller("secondNestedPageController", ["$scope", secondNestedPageController]);
     app.controller("golferController", ["$scope", "$state", "golferService", "golferRoundsService", golferController]);
-    app.controller("tournamentController", ["$scope", "$state", "tournamentService", "secondPageService", "thirdPageService",  "golferService", tournamentController]);
+    app.controller("tournamentController", ["$scope", "$state", "tournamentService", "secondPageService", "thirdPageService", "leaderboardService", tournamentController]);
 
     function rootController($scope) {
 
@@ -88,7 +88,7 @@
             }
         }
 
-    function tournamentController($scope, $state, tournamentService, secondPageService, thirdPageService, golferService) {
+    function tournamentController($scope, $state, tournamentService, secondPageService, thirdPageService, leaderboardService) {
         var tournamentId = $state.params.tournamentId;
         
 
@@ -105,6 +105,10 @@
           
         thirdPageService.getActiveGolfers(function (response) {
             $scope.activeGolfers = response.data;
+        });
+
+        leaderboardService.getLeaderboard(tournamentId, function (response) {
+            $scope.rounds = response.data;
         });
 
         $scope.saveTournamentClick = function () {
@@ -125,8 +129,8 @@
             });
         }
 
-        $scope.saveTournamentRoundsClick = function (activeGolfers, tournament) {
-            tournamentService.addGolferTournamentRounds(activeGolfers, tournament, function (response) {
+        $scope.saveTournamentRoundsClick = function (rounds, tournament) {
+            tournamentService.addGolferTournamentRounds(rounds, tournament, function (response) {
 
             });
         }
@@ -211,8 +215,8 @@
             createBlankTournamentRound: function (golfer, tournament, success, error) {
                 return $http.post('home/createBlankRound/', { Golfer: golfer, Tournament: tournament }).then(success, error);
             },
-            addGolferTournamentRounds: function (activeGolfers, tournament, success, error) {
-                return $http.post('home/addGolferTournamentRounds/', { Golfers: activeGolfers, Tournament: tournament }).then(success, error);
+            addGolferTournamentRounds: function (rounds, tournament, success, error) {
+                return $http.post('home/addGolferTournamentRounds/', { Rounds: rounds, Tournament: tournament }).then(success, error);
             }
         };
     }]);

@@ -41,7 +41,7 @@ namespace AngularJSExample.Controllers
         [HttpGet]
         public ActionResult loadRounds(string id)
         {
-            return Json(DisplayTournamentRounds(id), JsonRequestBehavior.AllowGet);         
+            return Json(DisplayLeaderboardRounds(id), JsonRequestBehavior.AllowGet);         
         }
 
         [HttpGet]
@@ -83,7 +83,7 @@ namespace AngularJSExample.Controllers
         [HttpPost]
         public String addGolferTournamentRounds(GolferTournamentViewModel golferTournament)
         {
-            return CreateGolferTournamentRoundsInDB(golferTournament.Golfers, golferTournament.Tournament);
+            return CreateGolferTournamentRoundsInDB(golferTournament.Rounds, golferTournament.Tournament);
         }
 
         [HttpPost]
@@ -238,49 +238,29 @@ namespace AngularJSExample.Controllers
             
         }
 
-        public IEnumerable<LeaderboardViewModel> DisplayTournamentRounds(string tournamentId)
+        public IEnumerable<LeaderboardViewModel> DisplayLeaderboardRounds(string tournamentId)
         {
             System.Data.DataSet objDS = null;
-            System.Data.DataSet objDS2 = null;
             string strSQL = "";
-            string strSQL2 = "";
-            string strTournamentName = "";
-           // string tournamentId = "44aa3ed5-ffba-40e3-98a6-9a1dc924126e";
-            
-
-
+                      
             try
             {
-
-                strSQL2 = "SELECT * FROM Tournaments WHERE ID = '" + tournamentId + "'";
-                objDS2 = DoQuickSelectQuery(strSQL2);
-
-                if (objDS2.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow objTournamentRow in objDS2.Tables[0].Rows)
-                    {
-                        strTournamentName = objTournamentRow["Display_Name"].ToString();
-                        break;
-                    }
-                   
-                }
-
-                // Generate SQL Statement
-                //strSQL = "Select G.Last_Name, G.First_Name, G.Adjusted_Handicap, R.Round_Handicap, R.Round_Senior_Handicap, ISNULL(R.Rd1_Score_Total_Net,0) AS Rd1_Score_Total_Net, ISNULL(R.Rd2_Score_Total_Net,0) AS Rd2_Score_Total_Net, ISNULL(R.Rd3_Score_Total_Net,0) AS Rd3_Score_Total_Net, ISNULL(R.Rd4_Score_Total_Net,0) AS Rd4_Score_Total_Net, ISNULL(R.Rd1_Score_Total_Gross,0) AS Rd1_Score_Total_Gross,  ISNULL(R.Rd2_Score_Total_Gross,0) AS Rd2_Score_Total_Gross,  ISNULL(R.Rd3_Score_Total_Gross,0) AS Rd3_Score_Total_Gross,  ISNULL(R.Rd4_Score_Total_Gross,0) AS Rd4_Score_Total_Gross,(ISNULL(R.Rd1_Score_Total_Net,0) + ISNULL(R.Rd2_Score_Total_Net,0) + ISNULL(R.Rd3_Score_Total_Net,0) + ISNULL(R.Rd4_Score_Total_Net,0)) as Total_Net From Tournaments T Left outer join Rounds R on R.Tournament_ID = T.ID Left outer join Golfers G on G.ID = R.Golfer_ID Where G.Qualified = 1 and T.ID = '" + tournamentId + "'Order by Total_Net ";
-
+                // Check for Rounds already assigned
                 strSQL = "Select G.Last_Name, G.First_Name, G.Id AS Golfer_ID, G.Adjusted_Handicap, ISNULL(R.Round_Handicap,0) AS Round_Handicap, ISNULL(R.Round_Senior_Handicap,0) AS Round_Senior_Handicap, T.Display_Name, R.Tournament_Name, ISNULL(R.Rd1_Score_Total_Net,0) AS Rd1_Score_Total_Net, ISNULL(R.Rd2_Score_Total_Net,0) AS Rd2_Score_Total_Net, ISNULL(R.Rd3_Score_Total_Net,0) AS Rd3_Score_Total_Net, ISNULL(R.Rd4_Score_Total_Net,0) AS Rd4_Score_Total_Net, ISNULL(R.Rd1_Score_Total_Gross,0) AS Rd1_Score_Total_Gross,  ISNULL(R.Rd2_Score_Total_Gross,0) AS Rd2_Score_Total_Gross,  ISNULL(R.Rd3_Score_Total_Gross,0) AS Rd3_Score_Total_Gross,  ISNULL(R.Rd4_Score_Total_Gross,0) AS Rd4_Score_Total_Gross,(ISNULL(R.Rd1_Score_Total_Net,0) + ISNULL(R.Rd2_Score_Total_Net,0) + ISNULL(R.Rd3_Score_Total_Net,0) + ISNULL(R.Rd4_Score_Total_Net,0)) as Total_Net From Tournaments T Left outer join Rounds R on R.Tournament_ID = T.ID Left outer join Golfers G on G.ID = R.Golfer_ID Where G.Qualified = 1 and Rd1_Score_Total_Gross <> 0 and Rd2_Score_Total_Gross <> 0 and Rd3_Score_Total_Gross <> 0 and Rd4_Score_Total_Gross <> 0 and T.ID = '" + tournamentId + "'Order by Total_Net";
 
                 objDS = DoQuickSelectQuery(strSQL);
 
                 var result = new List<LeaderboardViewModel>();
 
+                // If we have Rows, we have Rounds
                 if (objDS.Tables[0].Rows.Count > 0)
                 {
+                    // Fill LeaderboardViewModel with our Rounds
                     foreach (DataRow objLeaderboardRow in objDS.Tables[0].Rows)
                     {
                         var Leaderboard = new LeaderboardViewModel
                         {
-                            Id = objLeaderboardRow["Golfer_ID"].ToString(),
+                            Id = objLeaderboardRow["ID"].ToString(),
                             FirstName = objLeaderboardRow["First_Name"].ToString(),
                             LastName = objLeaderboardRow["Last_Name"].ToString(),
                             TournamentName = objLeaderboardRow["Tournament_Name"].ToString(),
@@ -288,15 +268,67 @@ namespace AngularJSExample.Controllers
                             Handicap = Convert.ToInt32(objLeaderboardRow["Round_Handicap"]),
                             Adusted_Handicap = Convert.ToInt32(objLeaderboardRow["Adjusted_Handicap"]),
                             Sr_Handicap = Convert.ToInt32(objLeaderboardRow["Round_Senior_Handicap"]),
+
                             Round1_Gross = Convert.ToInt32(objLeaderboardRow["Rd1_Score_Total_Gross"]),
-                            Round1_Net = Convert.ToInt32(objLeaderboardRow["Rd1_Score_Total_Net"]),
                             Round2_Gross = Convert.ToInt32(objLeaderboardRow["Rd2_Score_Total_Gross"]),
-                            Round2_Net = Convert.ToInt32(objLeaderboardRow["Rd2_Score_Total_Net"]),
                             Round3_Gross = Convert.ToInt32(objLeaderboardRow["Rd3_Score_Total_Gross"]),
-                            Round3_Net = Convert.ToInt32(objLeaderboardRow["Rd3_Score_Total_Net"]),
                             Round4_Gross = Convert.ToInt32(objLeaderboardRow["Rd4_Score_Total_Gross"]),
+
+                            Round1_Net = Convert.ToInt32(objLeaderboardRow["Rd1_Score_Total_Net"]),
+                            Round2_Net = Convert.ToInt32(objLeaderboardRow["Rd2_Score_Total_Net"]),                          
+                            Round3_Net = Convert.ToInt32(objLeaderboardRow["Rd3_Score_Total_Net"]),                        
                             Round4_Net = Convert.ToInt32(objLeaderboardRow["Rd4_Score_Total_Net"]),
+
+                            Round1_SrNet = Convert.ToInt32(objLeaderboardRow["Rd1_Score_Total_Senior_Net"]),
+                            Round2_SrNet = Convert.ToInt32(objLeaderboardRow["Rd2_Score_Total_Senior_Net"]),
+                            Round3_SrNet = Convert.ToInt32(objLeaderboardRow["Rd3_Score_Total_Senior_Net"]),
+                            Round4_SrNet = Convert.ToInt32(objLeaderboardRow["Rd4_Score_Total_Senior_Net"]),
+
+                            Round1_Hcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd1_HandicapIndex"]),
+                            Round2_Hcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd2_HandicapIndex"]),
+                            Round3_Hcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd3_HandicapIndex"]),
+                            Round4_Hcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd4_HandicapIndex"]),
+
+                            Round1_SrHcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd1_HandicapIndex"]),
+                            Round2_SrHcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd2_HandicapIndex"]),
+                            Round3_SrHcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd3_HandicapIndex"]),
+                            Round4_SrHcp_Index = Convert.ToDecimal(objLeaderboardRow["Rd4_HandicapIndex"]),
+
                             Total_Net = Convert.ToInt32(objLeaderboardRow["Total_Net"])
+
+                        };
+
+                        result.Add(Leaderboard);
+                    }
+                }
+                else
+                {
+                    // AutoFill LeaderboardViewModel with Active Golfers                  
+                    // Generate SQL Statement
+                    strSQL = "SELECT * FROM Golfers WHERE Active = '1' ORDER BY Last_Name ASC";
+                    objDS = DoQuickSelectQuery(strSQL);
+
+                    foreach (DataRow objGolferRow in objDS.Tables[0].Rows)
+                    {
+                        System.Guid strId = System.Guid.NewGuid();
+
+                        var Leaderboard = new LeaderboardViewModel
+                        {
+                            Id = strId.ToString(),
+                            FirstName = objGolferRow["First_Name"].ToString(),
+                            LastName = objGolferRow["Last_Name"].ToString(),
+                            GolferId = objGolferRow["ID"].ToString(),
+                            Handicap = Convert.ToInt32(GetDBString(objGolferRow, "Current_Handicap")),
+                            Sr_Handicap = Convert.ToInt32(GetDBString(objGolferRow, "Senior_Current_Handicap")),
+                            Round1_Gross = 0,
+                            Round1_Net = 0,
+                            Round2_Gross = 0,
+                            Round2_Net = 0,
+                            Round3_Gross = 0,
+                            Round3_Net = 0,
+                            Round4_Gross = 0,
+                            Round4_Net = 0,
+                            Total_Net = 0                      
 
                         };
 
@@ -305,32 +337,8 @@ namespace AngularJSExample.Controllers
                     }
 
                 }
-                else
-                {
-                    var Leaderboard = new LeaderboardViewModel
-                    {
-                        Id = null,
-                        FirstName = "",
-                        LastName = "No Rounds Available Prior to 2001 ",
-                        Handicap = 0,
-                        Adusted_Handicap = 0,
-                        Round1_Gross = 0,
-                        Round1_Net = 0,
-                        Round2_Gross = 0,
-                        Round2_Net = 0,
-                        Round3_Gross = 0,
-                        Round3_Net = 0,
-                        Round4_Gross = 0,
-                        Round4_Net = 0,
-                        Total_Net = 0
-
-                    };
-
-                    result.Add(Leaderboard);
-                }
-
-                
                 return result;
+                                              
             }
             finally
             {
@@ -524,14 +532,18 @@ namespace AngularJSExample.Controllers
             }
         }
 
-        public string CreateGolferTournamentRoundsInDB(IEnumerable<GolferViewModel> objGolfers, TournamentViewModel objTournament)
+        public string CreateGolferTournamentRoundsInDB(IEnumerable<LeaderboardViewModel> objRounds, TournamentViewModel objTournament)
         {
-           
 
-            if (objGolfers != null)
+
+            if (objRounds != null)
             {
                 //Loop through the objGolfers Collection and update their rounds in the DB
                 //SQL Goes Here
+                foreach (var round in objRounds)
+                {
+                   UpdateGolferRoundInDB(round, objTournament);
+                }
 
                 return "Success! Golfer Round Created";
             }
@@ -540,6 +552,38 @@ namespace AngularJSExample.Controllers
                 return "Error. Missing Tournament";
             }
         }
+
+        public void UpdateGolferRoundInDB(LeaderboardViewModel objRound, TournamentViewModel objTournament)
+        {
+            System.Data.DataSet objDS = null;
+            string strSQL = string.Empty;
+            string strGETSQL = string.Empty;
+            string strRoundId = string.Empty;
+
+            try
+            {
+                // Determine if we already have a round for this golfer 
+                strGETSQL = "SELECT * FROM Rounds WHERE Golfer_ID = '" + objRound.GolferId + "' AND Tournament_ID = '" + objTournament.Id + "'";
+                objDS = DoQuickSelectQuery(strGETSQL);
+
+                if (objDS.Tables[0].Rows.Count > 0)
+                {
+                    strRoundId = GetDBString(objDS.Tables[0].Rows[0], "ID");
+
+                    // Generate your Update SQL Statement
+                //    strSQL = "UPDATE Rounds SET Golfer_ID = " + SQLValuePrep(objRound.GolferId) + ", Tournament_ID = " + SQLValuePrep(objTournament.Id) + ", Tournament_Name = " + SQLValuePrep(objTournament.Title) + ", Round_Handicap = " + SQLValuePrep(objRound.Handicap.ToString()) + ", Round_Senior_Handicap = " + SQLValuePrep(objRound.Sr_Handicap.ToString()) + ", Rd1_Course_ID = " + SQLValuePrep(objTournament.Round1_Course) + ", Rd1_Score_Total_Gross = " + SQLValuePrep(objRound.Round1_Gross.ToString()) + ", Rd1_Score_Total_Net = " + SQLValuePrep(objRound.Round1_Net.ToString()) + ", Rd1_Score_Total_Senior_Net = " + SQLValuePrep("0") + ", Rd1_HandicapIndex = " + SQLValuePrep(lblRd1HandicapIndex.Text) + ", Rd1_Date = " + SQLValuePrep(objTournament.Round1_Date.ToString()) + ", Rd2_Course_ID = " + SQLValuePrep(objTournament.Round2_Course) + ", Rd2_Score_Total_Gross = " + SQLValuePrep(txtRd2Total.Text) + ", Rd2_Score_Total_Net = " + SQLValuePrep(lblRd2TotalNet.Text) + ", Rd2_Score_Total_Senior_Net = " + SQLValuePrep(lblRd2SeniorTotalNet.Text) + ", Rd2_HandicapIndex = " + SQLValuePrep(lblRd2HandicapIndex.Text) + ", Rd2_Date = " + SQLValuePrep(objTournament.Round2_Date.ToString()) + ", Rd3_Course_ID = " + SQLValuePrep(objTournament.Round3_Course) + ", Rd3_Score_Total_Gross = " + SQLValuePrep(txtRd3Total.Text) + ", Rd3_Score_Total_Net = " + SQLValuePrep(lblRd3TotalNet.Text) + ", Rd3_Score_Total_Senior_Net = " + SQLValuePrep(lblRd3SeniorTotalNet.Text) + ", Rd3_HandicapIndex = " + SQLValuePrep(lblRd3HandicapIndex.Text) + ", Rd3_Date = " + SQLValuePrep(objTournament.Round3_Date.ToString()) + ", Rd4_Course_ID = " + SQLValuePrep(objTournament.Round1_Course) + ", Rd4_Score_Total_Gross = " + SQLValuePrep(txtRd4Total.Text) + ", Rd4_Score_Total_Net = " + SQLValuePrep(lblRd4TotalNet.Text) + ", Rd4_Score_Total_Senior_Net = " + SQLValuePrep(lblRd4SeniorTotalNet.Text) + ", Rd4_HandicapIndex = " + SQLValuePrep(lblRd4HandicapIndex.Text) + ", Rd4_Date = " + SQLValuePrep(objTournament.Round4_Date.ToString()) + " " + "WHERE Id=" + SQLValuePrep(strRoundId);
+                }
+                else
+                {
+                    // Do something else
+                }
+
+            }catch{
+
+            }
+        }
+
+
         #endregion
 
         #region Golfer Signatures
@@ -1245,7 +1289,7 @@ namespace AngularJSExample.Controllers
         public GolferViewModel Golfer { get; set; }
         public TournamentViewModel Tournament { get; set; }
         public IEnumerable<GolferViewModel> Golfers { get; set; }
-
+        public IEnumerable<LeaderboardViewModel> Rounds { get; set; }
         
     }
    
@@ -1277,15 +1321,35 @@ namespace AngularJSExample.Controllers
         public int Handicap { get; set; }
         public int Adusted_Handicap { get; set; }
         public int Sr_Handicap { get; set; }
-        public int Round1_Gross { get; set; }
-        public int Round1_Net { get; set; }
-        public int Round2_Gross { get; set; }
-        public int Round2_Net { get; set; }
-        public int Round3_Gross { get; set; }
-        public int Round3_Net { get; set; }
-        public int Round4_Gross { get; set; }
-        public int Round4_Net { get; set; }
         public int Total_Net { get; set; }
+
+        public int Round1_Gross { get; set; }
+        public int Round2_Gross { get; set; }
+        public int Round3_Gross { get; set; }
+        public int Round4_Gross { get; set; }
+
+        public int Round1_Net { get; set; }
+        public int Round2_Net { get; set; } 
+        public int Round3_Net { get; set; }
+        public int Round4_Net { get; set; }
+
+        public decimal Round1_Hcp_Index { get; set; }
+        public decimal Round2_Hcp_Index { get; set; }
+        public decimal Round3_Hcp_Index { get; set; }
+        public decimal Round4_Hcp_Index { get; set; }
+
+        public int Round1_SrNet { get; set; }
+        public int Round2_SrNet { get; set; }
+        public int Round3_SrNet { get; set; }
+        public int Round4_SrNet { get; set; }
+
+        // Add to DB
+        public decimal Round1_SrHcp_Index { get; set; }
+        public decimal Round2_SrHcp_Index { get; set; }
+        public decimal Round3_SrHcp_Index { get; set; }
+        public decimal Round4_SrHcp_Index { get; set; }
+
+       
     }
 
     public class RoundViewModel

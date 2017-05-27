@@ -568,6 +568,12 @@ namespace AngularJSExample.Controllers
                 if (objRound.Round1_Gross > 0 )
                 {
                     objRound.Round1_Net = (objRound.Round1_Gross - objRound.Handicap);
+
+                    if (objRound.Sr_Handicap > 0)
+                    {
+                        objRound.Round1_SrNet = (objRound.Round1_Gross - objRound.Sr_Handicap);
+                    }
+
                     objRound.Round1_Hcp_Index = Decimal.Parse(CalculateHandicapIndex(objTournament.Round1_Course, objRound.Round1_Gross.ToString(), false));
                 }
                 // ----ROUND 2 ----
